@@ -136,4 +136,15 @@ class CuratorTest < Minitest::Test
     assert_equal "1929", @curator.artists.last.born
   end
 
+  def test_can_get_photos_taken_between_date_range
+    @curator.add_photograph(@photo_1)
+    @curator.add_photograph(@photo_2)
+    @curator.add_photograph(@photo_3)
+    @curator.add_photograph(@photo_4)
+    assert_equal [@photo_1, @photo_2], @curator.photographs_taken_between("1940 - 1960")
+    assert_equal [@photo_4], @curator.photographs_taken_between("1920 - 1930")
+    assert_equal [], @curator.photographs_taken_between("1900 - 1910")
+  end
+
+
 end
