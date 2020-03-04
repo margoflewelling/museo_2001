@@ -1,3 +1,5 @@
+require 'CSV'
+
 class Curator
   attr_reader :photographs, :artists
 
@@ -47,5 +49,18 @@ class Curator
     photos_from_country.flatten
   end
 
+  def load_photographs(file)
+    csv = CSV.read(file, headers: true, header_converters: :symbol)
+    csv.map do |row|
+      @photographs << Photograph.new(row)
+    end
+  end
+
+  def load_artists(file)
+    csv = CSV.read(file, headers: true, header_converters: :symbol)
+    csv.map do |row|
+      @artists << Artist.new(row)
+    end
+  end
 
 end

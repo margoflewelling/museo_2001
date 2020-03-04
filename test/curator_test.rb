@@ -123,4 +123,17 @@ class CuratorTest < Minitest::Test
     assert_equal [@photo_1], @curator.photographs_taken_by_artists_from("France")
   end
 
+  def test_it_can_load_photographs_from_csv
+    @curator.load_photographs("./data/photographs.csv")
+    assert_equal 4, @curator.photographs.length
+    expected = "Rue Mouffetard, Paris (Boy with Bottles)"
+    assert_equal expected, @curator.photographs[0].name
+  end
+
+  def test_it_can_load_artists_from_csv
+    @curator.load_artists("./data/artists.csv")
+    assert_equal 6, @curator.artists.length
+    assert_equal "1929", @curator.artists.last.born
+  end
+
 end
