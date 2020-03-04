@@ -64,12 +64,19 @@ class Curator
   end
 
   def photographs_taken_between(range)
-    start_year = range[0..3].to_i
-    end_year = range[-4..-1].to_i
+    start_year = range.to_s[0..3].to_i
+    end_year = range.to_s[-4..-1].to_i
     @photographs.find_all do |photo|
       photo.year.to_i >= start_year && photo.year.to_i <= end_year
     end
   end
 
+  def artists_photographs_by_age(artist)
+    photos = photographs_by_artist[artist]
+    photos.reduce({}) do |age_with_photos, photo|
+      age_with_photos[photo.year.to_i - artist.born.to_i] = photo.name
+      age_with_photos
+    end
+  end
 
 end
