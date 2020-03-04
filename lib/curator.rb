@@ -37,4 +37,15 @@ class Curator
     artist_has_mult_photos
   end
 
+  def photographs_taken_by_artists_from(country)
+    artists_from_country = @artists.find_all {|artist| artist.country == country}
+    photos_from_country = []
+    photographs_by_artist.each do |artist, photos|
+      if artists_from_country.include?(artist)
+        photos_from_country << photos
+      end
+    end
+    photos_from_country.flatten
+  end
+
 end
