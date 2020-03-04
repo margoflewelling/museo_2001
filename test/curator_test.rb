@@ -119,10 +119,8 @@ class CuratorTest < Minitest::Test
     @curator.add_photograph(@photo_3)
     @curator.add_photograph(@photo_4)
     assert_equal [@photo_2, @photo_3, @photo_4], @curator.photographs_taken_by_artists_from("United States")
-    # assert_equal [], @curator.photographs_taken_by_artists_from("Argentina")
+    assert_equal [], @curator.photographs_taken_by_artists_from("Argentina")
+    assert_equal [@photo_1], @curator.photographs_taken_by_artists_from("France")
   end
-# photographs_taken_by_artists_from(string) - This method
-# takes a String representing a country. It returns an Array
-# of Photographs that were taken by a photographer from that
-# country.
+
 end
