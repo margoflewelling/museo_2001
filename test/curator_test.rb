@@ -123,4 +123,35 @@ class CuratorTest < Minitest::Test
     assert_equal [@photo_1], @curator.photographs_taken_by_artists_from("France")
   end
 
+  def test_it_can_load_photographs_from_csv
+    @curator.load_photographs("./data/photographs.csv")
+    assert_equal 4, @curator.photographs.length
+    expected = "Rue Mouffetard, Paris (Boy with Bottles)"
+    assert_equal expected, @curator.photographs[0].name
+  end
+
+  def test_it_can_load_artists_from_csv
+    @curator.load_artists("./data/artists.csv")
+    assert_equal 6, @curator.artists.length
+    assert_equal "1929", @curator.artists.last.born
+  end
+
+  def test_can_get_photos_taken_between_date_range
+    @curator.add_photograph(@photo_1)
+    @curator.add_photograph(@photo_2)
+    @curator.add_photograph(@photo_3)
+    @curator.add_photograph(@photo_4)
+    assert_equal [@photo_1, @photo_2], @curator.photographs_taken_between(1940..1960)
+    assert_equal [@photo_4], @curator.photographs_taken_between(1920..1930)
+    assert_equal [], @curator.photographs_taken_between(1900..1910)
+  end
+
+  def test_it_can_get_artists_photos_by_age
+    @curator.load_artists("./data/artists.csv")
+    @curator.load_photographs("./data/photographs.csv")
+    diane_arbus = @curator.find_artist_by_id("3")
+    expected = {44=>"Identical Twins, Roselle, New Jersey", 39=>"Child with Toy Hand Grenade in Central Park"}
+    assert_equal expected, @curator.artists_photographs_by_age(diane_arbus)
+  end
+
 end
